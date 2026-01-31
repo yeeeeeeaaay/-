@@ -66,9 +66,11 @@ input {
 <body>
 
 <!-- КАПИБАРЫ -->
-<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:10%;left:5%;">
-<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:60%;left:70%;">
-<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:30%;left:50%;">
+<img class="capy" src="https://i.postimg.cc/8C5m6Y3f/capybara.png" style="top:10%;left:5%;">
+<img class="capy" src="https://i.postimg.cc/8C5m6Y3f/capybara.png" style="top:60%;left:70%;">
+<img class="capy" src="https://i.postimg.cc/8C5m6Y3f/capybara.png" style="top:30%;left:50%;">
+<img class="capy" src="https://i.postimg.cc/8C5m6Y3f/capybara.png" style="top:20%;left:80%;">
+<img class="capy" src="https://i.postimg.cc/8C5m6Y3f/capybara.png" style="top:70%;left:10%;">
 
 <div class="container" id="codeScreen">
   <h2>🦫 КАПИБАРСКИЙ ДОСТУП 🦫</h2>
@@ -107,9 +109,14 @@ function moveYes() {
   yes.innerText = "ДА 💚";
   document.body.appendChild(yes);
 
+  let moveCount = 0; // убегает только 2 раза
+
   yes.addEventListener("mouseover", () => {
-    yes.style.left = Math.random() * 70 + "%";
-    yes.style.top = Math.random() * 70 + "%";
+    if (moveCount < 2) {
+      yes.style.left = Math.random() * 70 + "%";
+      yes.style.top = Math.random() * 70 + "%";
+      moveCount++;
+    }
   });
 
   yes.onclick = () => {
@@ -125,23 +132,4 @@ function next() {
     "Точно? 🤨",
     "Прям точно-точно?? 😳",
     "УВЕРЕН??? 😈",
-    "УРААААА 🎉 ХЕХЕ 🦫💖"
-  ];
-  document.getElementById("text").innerText = texts[step];
-  step++;
-}
-
-function sendAnswer(answer) {
-  fetch("https://api.telegram.org/botТОКЕН/sendMessage", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: "ТВОЙ_CHAT_ID",
-      text: "Ответ: " + answer
-    })
-  });
-}
-</script>
-
-</body>
-</html>
+    "УРААААА 🎉 Х
