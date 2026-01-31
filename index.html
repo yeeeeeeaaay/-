@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Капибарский квест</title>
+<style>
+body {
+  margin: 0;
+  font-family: Comic Sans MS, Arial;
+  background: linear-gradient(135deg, #ffdd00, #ff8c00, #ff69b4);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hidden { display: none; }
+
+.capy {
+  position: absolute;
+  width: 120px;
+  animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0); }
+}
+
+.container {
+  background: rgba(255,255,255,0.85);
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+}
+
+button {
+  font-size: 18px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yes {
+  background: #4CAF50;
+  color: white;
+  position: absolute;
+}
+
+#no {
+  background: #ff4444;
+  color: white;
+}
+
+input {
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #333;
+}
+</style>
+</head>
+<body>
+
+<!-- КАПИБАРЫ -->
+<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:10%;left:5%;">
+<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:60%;left:70%;">
+<img class="capy" src="https://i.imgur.com/3ZQ3ZQF.png" style="top:30%;left:50%;">
+
+<div class="container" id="codeScreen">
+  <h2>🦫 КАПИБАРСКИЙ ДОСТУП 🦫</h2>
+  <p>Введи секретное слово:</p>
+  <input id="code" placeholder="секретное слово">
+  <br><br>
+  <button onclick="checkCode()">Проверить</button>
+</div>
+
+<div class="container hidden" id="game">
+  <h2>Мы пойдём в парк аттракционов,<br>когда ты приедешь? 🎢</h2>
+  <button id="no" onclick="sendAnswer('Нет 😢')">Нет</button>
+</div>
+
+<div class="container hidden" id="dialog">
+  <h2 id="text"></h2>
+  <button onclick="next()">Да 😳</button>
+</div>
+
+<script>
+let step = 0;
+
+function checkCode() {
+  if (document.getElementById("code").value === "душнила") {
+    document.getElementById("codeScreen").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+    moveYes();
+  } else {
+    alert("Неправильно 😈");
+  }
+}
+
+function moveYes() {
+  const yes = document.createElement("button");
+  yes.id = "yes";
+  yes.innerText = "ДА 💚";
+  document.body.appendChild(yes);
+
+  yes.addEventListener("mouseover", () => {
+    yes.style.left = Math.random() * 70 + "%";
+    yes.style.top = Math.random() * 70 + "%";
+  });
+
+  yes.onclick = () => {
+    sendAnswer("ДА 💖");
+    document.getElementById("game").classList.add("hidden");
+    document.getElementById("dialog").classList.remove("hidden");
+    next();
+  };
+}
+
+function next() {
+  const texts = [
+    "Точно? 🤨",
+    "Прям точно-точно?? 😳",
+    "УВЕРЕН??? 😈",
+    "УРААААА 🎉 ХЕХЕ 🦫💖"
+  ];
+  document.getElementById("text").innerText = texts[step];
+  step++;
+}
+
+function sendAnswer(answer) {
+  fetch("https://api.telegram.org/botТОКЕН/sendMessage", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: "ТВОЙ_CHAT_ID",
+      text: "Ответ: " + answer
+    })
+  });
+}
+</script>
+
+</body>
+</html>
